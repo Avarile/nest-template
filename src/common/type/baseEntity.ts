@@ -1,5 +1,6 @@
 import {
   BaseEntity as TypeormBaseEntity,
+  Column,
   CreateDateColumn,
   DeleteDateColumn,
   PrimaryGeneratedColumn,
@@ -26,4 +27,7 @@ export abstract class BaseEntity
 
   @DeleteDateColumn({ comment: 'delete time' })
   deletedAt: Date;
+
+  @Column({default:false})
+  deleted: boolean;
 }

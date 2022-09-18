@@ -1,56 +1,75 @@
 import { BaseEntity } from 'src/common/type';
-import { Entity, Column } from 'typeorm';
 import {
-  IsString,
-  IsEmail,
-  IsBoolean,
-  IsNumber,
-  IsArray,
-} from 'class-validator';
+  Entity,
+  Column,
+  Unique,
+  BeforeUpdate,
+  Index,
+  BeforeInsert,
+} from 'typeorm';
 
 @Entity()
+@Unique(['username', 'email'])
+@Index(['username', 'email'])
 export class User extends BaseEntity {
-  @Column({ length: 200 })
-  @IsString()
+  // basic info
+  @Column({ unique: true })
   username: string;
 
-  @Column({ unique: true, length: 100 })
-  @IsEmail()
+  @Column({ unique: true })
   email: string;
 
-  @Column({ length: 20 })
-  @IsString()
+  @Column()
   password: string;
 
   @Column({ default: false })
-  @IsBoolean()
-  activated: boolean; //
+  verified: boolean;
 
-  @Column()
-  @IsString()
-  avatar?: string; // this really is not nessacery in the beginninig.
-  // so I can just use 4 different avatar, member / supplier / admin / empire --- which is Mr Sansoni himself.
+  // Authentication
+  @Column({ default: 0 })
+  permissions: 0 | 1 | 2 | 3;
 
-  @Column()
-  @IsString()
-  address?: string; // because sqlite does not support array, so we can simply stringfy the array to a string "[15, "seabird dr", "PointCook", "Melbourne" , "Victoria"]"
+  // optional info
+  @Column({ nullable: true })
+  companys: string;
 
-  @Column()
-  @IsBoolean()
-  verified: boolean; // Email verification tag
-  @Column()
-  @IsNumber()
-  phoneNumber: number;
+  @Column({ nullable: true })
+  avatar?: string;
 
-  @Column()
-  @IsArray()
-  permissions: string; // [ "Victoria_region_1", "Victoria_region_2"]
+  @Column({ nullable: true })
+  bio?: string;
 
-  @Column()
-  @IsString()
-  organization: String; // which is the company name
+  @Column({ nullable: true })
+  position?: string;
 
-  @Column()
-  @IsString()
-  desc: String; // [A Logistics Operation as well as a programmer]
+  @Column({ nullable: true })
+  organization?: string;
+
+  @Column({ nullable: true })
+  personalTags?: string;
+
+  // address info
+  @Column({ nullable: true })
+  address?: string;
+
+  @Column({ nullable: true })
+  address_city?: string;
+
+  @Column({ nullable: true })
+  address_state?: string;
+
+  @Column({ nullable: true })
+  address_zip?: number;
+
+  @BeforeUpdate()
+  ToLowerCase_update() {
+    this.username = this.username.toLowerCase();
+    this.email = this.email.toLowerCase();
+  }
+
+  @BeforeInsert()
+  ToLowerCase_insert() {
+    this.username = this.username.toLowerCase();
+    this.email = this.email.toLowerCase();
+  }
 }

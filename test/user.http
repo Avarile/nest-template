@@ -1,15 +1,58 @@
 #### create user
-POST "localhost:3000/api/users"
+POST http://localhost:3000/api/v1/users/create
+Content-Type: application/json
 
 {
+  "username": "Sandoty",
+  "email": "Sandoty@gmail.com",
+  "password": "00",
+  "perminssions": 0,
+  "verified": false,
+  "permissions":0
+
+}
+
+##### Find all user and paganation
+POST http://localhost:3000/api/v1/users/findall
+
+
+##### Find specific user through email/username/id
+POST http://localhost:3000/api/v1/users/queryone
+Content-Type: application/json
+
+{
+ "username":"sandoty"
+}
+
+
+##### Update user info through id
+POST http://localhost:3000/api/v1/users/update
+Content-Type: application/json
+
+{
+  "id":1 ,
+  "payload":{
   "username": "avarile",
-  "email": "avarile@gmail.com",
-  "password": "000000",
-  "activated": false,
-  "avatar": "admin"
-  address: '84-88, south Melbourne';
-  verified: 'false';
-  phoneNumber: '0412345678';
-  organization: 'AGI';
-  desc: 'A fullstack programmer with strong Supplychain background.';
+  "email": "sparutus@gmail.com",
+  "verified": false,
+  "permissions": 0,
+  "companys": "ASG",
+  "avatar": null,
+  "bio": "I am a coder, a logistic implementation, and a Supply Chain Management",
+  "position": null,
+  "organization": null,
+  "personalTags": null,
+  "address": null,
+  "address_city": null,
+  "address_state": null,
+  "address_zip": null
+  }
+}
+
+##### Delete user through id
+POST http://localhost:3000/api/v1/users/delete
+Content-Type: application/json
+
+{
+  "id":4
 }
